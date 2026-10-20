@@ -88,3 +88,31 @@ td.points { font-weight: 900; color: var(--amber); font-size: 17px; text-align: 
 .module-acts { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 6px; font-size: 14px; font-weight: 700; }
 .module-acts li { display: flex; justify-content: space-between; gap: 10px; padding: 6px 10px; background: #f9fafb; border-radius: 8px; }
 .module .path { margin-top: 0; }
+.btn-link { color: var(--text); cursor: pointer; font: inherit; font-size: 13px; font-weight: 800; }
+.btn-link.danger { color: #b91c1c; }
+
+.admin-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.tabs { display: flex; gap: 6px; margin: 4px 0 18px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.tabs a { display: inline-flex; align-items: center; gap: 6px; padding: 10px 14px; font-weight: 800; font-size: 14px; color: var(--muted); border-bottom: 3px solid transparent; margin-bottom: -1px; }
+.tabs a.active { color: var(--green-dark); border-bottom-color: var(--green); }
+
+.login { max-width: 360px; margin: 40px auto; display: grid; gap: 4px; }
+.login input { margin-bottom: 8px; }
+.error { color: #991b1b; background: #fee2e2; border-radius: 9px; padding: 8px 12px; font-size: 14px; font-weight: 700; margin-top: 8px; }
+.error.full { flex-basis: 100%; }
+
+.inline-form { display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 8px; }
+.inline-form input, .inline-label input { margin-bottom: 0; }
+.inline-label { display: grid; gap: 2px; font-size: 12px; font-weight: 800; color: var(--muted); }
+.inline-label input { width: 110px; }
+
+.admin-card { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin-bottom: 16px; }
+.admin-card-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+.admin-card-head h3 { font-size: 18px; font-weight: 900; }
+.admin-card h4 { font-size: 13px; font-weight: 800; color: var(--muted); margin-bottom: 4px; }
+.admin-card textarea { font: inherit; font-weight: 700; padding: 8px 10px; border: 1.5px solid var(--border); border-radius: 9px; width: 100%; min-height: 70px; margin-bottom: 8px; }
+
+.student-list { list-style: none; margin-bottom: 12px; }
+.student-list li { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-top: 1px solid #f1f2f4; flex-wrap: wrap; }
+.student-list .grow { flex: 1; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+.student-list input { margin-bottom: 0; }

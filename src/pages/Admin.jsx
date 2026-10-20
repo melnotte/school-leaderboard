@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
+import { NavLink, Outlet } from 'react-router-dom'
+import { LogOut, Users, Database } from 'lucide-react'
 import { supabase } from '../lib/supabase'
-import CsvUploader from '../components/CsvUploader'
+import AdminLogin from '../components/admin/AdminLogin'
 
 export default function Admin() {
   const [session, setSession] = useState(undefined)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => setSession(data.session))
@@ -14,35 +13,25 @@ export default function Admin() {
     return () => sub.subscription.unsubscribe()
   }, [])
 
-  async function login(e) {
-    e.preventDefault()
-    setError('')
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
-    if (error) setError('Correo o contraseña incorrectos')
-  }
-
-  if (session === undefined) return <p>Cargando…</p>
-
-  if (!session) {
-    return (
-      <form onSubmit={login}>
-        <h1>Administración</h1>
-        <input type="email" placeholder="Correo" value={email}
-          onChange={(e) => setEmail(e.target.value)} />
-        <input type="password" placeholder="Contraseña" value={password}
-          onChange={(e) => setPassword(e.target.value)} />
-        <button type="submit">Entrar</button>
-        {error && <p>{error}</p>}
-      </form>
-    )
-  }
+  if (session === undefined) return <p className="msg">Cargando…</p>
+  if (!session) return <AdminLogin />
 
   return (
-    <div>
-      <h1>Administración</h1>
-      <p>Sesión iniciada como {session.user.email}</p>
-      <CsvUploader />
-      <button onClick={() => supabase.auth.signOut()}>Cerrar sesión</button>
-    </div>
+    <>
+      <div className="admin-bar">
+        <h1>Administración</h1>
+        <button className="btn-link" onClick={() => supabase.auth.signOut()}>
+          <LogOut size={15} />Cerrar sesión
+        </button>
+      </div>
+      <p className="sub">{session.user.email}</p>
+
+      <nav className="tabs">
+        <NavLink to="/admin/groups"><Users size={16} />Grupos y estudiantes</NavLink>
+        <NavLink to="/admin/backup"><Database size={16} />Respaldo CSV</NavLink>
+      </nav>
+
+      <Outlet />
+    </>
   )
 }
