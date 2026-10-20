@@ -3,9 +3,11 @@ import { Link, useParams } from 'react-router-dom'
 import { ChevronLeft, LayoutDashboard, Check } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { formatDate, percent } from '../lib/format'
+import { currentModuleIndex } from '../lib/modules'
 import Avatar from '../components/Avatar'
 import RankBadge from '../components/RankBadge'
 import Mountain from '../components/Mountain'
+import ModuleList from '../components/ModuleList'
 
 export default function Group() {
   const { token } = useParams()
@@ -24,74 +26,106 @@ export default function Group() {
   if (!group) return <p className="msg">Cargando…</p>
   if (!group.name) return <p className="msg">No encontramos este grupo. Revisa el link.</p>
 
-  const total = group.activities.length
+  const { modules, students } = group
+  const flat = modules.flatMap((m) =>
+    m.activities.map((a, i) => ({ ...a, first: i === 0 }))
+  )
+  const total = flat.length
+  const current = currentModuleIndex(
+    modules,
+    (a) => students.length > 0 && students.every((s) => s.completed.includes(a.id))
+  )
 
   return (
     <>
       <Link to="/" className="back"><ChevronLeft size={16} />Ranking de la escuela</Link>
       <h1>{group.name}</h1>
-      <p className="sub">Avance al {formatDate(group.date)}. La meta es la bandera en la cima.</p>
+      <p className="sub">
+        {group.updated ? `Última actividad registrada el ${formatDate(group.updated)}. ` : ''}
+        La meta es la bandera en la cima.
+      </p>
 
-      <div className="card padded"><Mountain students={group.students} total={total} /></div>
+      <div className="card padded"><Mountain students={students} total={total} /></div>
 
-      <h2>Ranking y actividades</h2>
-      <p className="sub">Un check marca la actividad completada. El círculo vacío es una actividad pendiente.</p>
+      {total === 0 ? (
+        <p className="msg">Este grupo aún no tiene temas ni actividades.</p>
+      ) : (
+        <>
+          <h2>Ranking y actividades</h2>
+          <p className="sub">Un check marca la actividad completada. El círculo vacío es una actividad pendiente.</p>
 
-      <div className="card">
-        <table className="matrix">
-          <thead>
-            <tr>
-              <th className="sticky">Estudiante</th>
-              <th className="center">Puntos</th>
-              <th></th>
-              {group.activities.map((a, i) => (
-                <th key={i} className="col"><span>{i + 1}. {a}</span></th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {group.students.map((s) => (
-              <tr key={s.name}>
-                <td className="sticky">
-                  <div className="student-cell">
-                    <RankBadge rank={s.rank} />
-                    <Avatar name={s.name} />
-                    <div>
-                      <span className="name-text">{s.name}</span>
-                      <small>{s.done} de {total} ({percent(s.done, total)}%)</small>
-                    </div>
-                  </div>
-                </td>
-                <td className="points center">{s.points}</td>
-                <td>
-                  {s.token && (
-                    <Link to={`/s/${s.token}`} className="btn-link">
-                      <LayoutDashboard size={15} />Dashboard
-                    </Link>
+          <div className="card">
+            <table className="matrix">
+              <thead>
+                <tr>
+                  <th className="sticky" rowSpan={2}>Estudiante</th>
+                  <th className="center" rowSpan={2}>Puntos</th>
+                  <th rowSpan={2}></th>
+                  {modules.map((m, i) =>
+                    m.activities.length > 0 && (
+                      <th key={m.id} colSpan={m.activities.length}
+                        className={`mod${i === current ? ' current' : ''}`}>
+                        {m.name}
+                      </th>
+                    )
                   )}
-                </td>
-                {s.checks.map((c, i) => (
-                  <td key={i} className="center">
-                    {c ? <Check size={18} className="done" /> : <span className="pending" />}
-                  </td>
+                </tr>
+                <tr>
+                  {flat.map((a, i) => (
+                    <th key={a.id} className={`col${a.first ? ' first' : ''}`}>
+                      <span>{i + 1}. {a.name}</span>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {students.map((s) => (
+                  <tr key={s.token}>
+                    <td className="sticky">
+                      <div className="student-cell">
+                        <RankBadge rank={s.rank} />
+                        <Avatar name={s.name} />
+                        <div>
+                          <span className="name-text">{s.name}</span>
+                          <small>{s.done} de {total} ({percent(s.done, total)}%)</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="points center">{s.points}</td>
+                    <td>
+                      <Link to={`/s/${s.token}`} className="btn-link">
+                        <LayoutDashboard size={15} />Dashboard
+                      </Link>
+                    </td>
+                    {flat.map((a) => (
+                      <td key={a.id} className={`center${a.first ? ' first' : ''}`}>
+                        {s.completed.includes(a.id)
+                          ? <Check size={18} className="done" />
+                          : <span className="pending" />}
+                      </td>
+                    ))}
+                  </tr>
                 ))}
-              </tr>
-            ))}
-          </tbody>
-          <tfoot>
-            <tr>
-              <td className="sticky">Lo completaron</td>
-              <td></td>
-              <td></td>
-              {group.activities.map((_, i) => (
-                <td key={i} className="center">
-                  <small>{group.students.filter((s) => s.checks[i]).length}</small>
-                </td>
-              ))}
-            </tr>
-          </tfoot>
-        </table>
-      </div>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td className="sticky">Lo completaron</td>
+                  <td></td>
+                  <td></td>
+                  {flat.map((a) => (
+                    <td key={a.id} className={`center${a.first ? ' first' : ''}`}>
+                      <small>{students.filter((s) => s.completed.includes(a.id)).length}</small>
+                    </td>
+                  ))}
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
+          <h2>Temas del curso</h2>
+          <ModuleList modules={modules} students={students} current={current} />
+        </>
+      )}
     </>
   )
 }

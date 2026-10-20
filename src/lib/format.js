@@ -24,3 +24,7 @@ export function formatDate(iso) {
     day: 'numeric', month: 'long', year: 'numeric',
   })
 }
+
+export function shortDate(iso) {
+  return new Date(iso + 'T00:00').toLocaleDateString('es-MX', { day: 'numeric', month: 'short' })
+}
