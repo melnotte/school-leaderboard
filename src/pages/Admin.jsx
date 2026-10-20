@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
+import CsvUploader from '../components/CsvUploader'
 
 export default function Admin() {
   const [session, setSession] = useState(undefined)
@@ -40,6 +41,7 @@ export default function Admin() {
     <div>
       <h1>Administración</h1>
       <p>Sesión iniciada como {session.user.email}</p>
+      <CsvUploader />
       <button onClick={() => supabase.auth.signOut()}>Cerrar sesión</button>
     </div>
   )
