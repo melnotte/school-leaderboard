@@ -15,8 +15,12 @@ export function initials(name) {
   return name.split(' ').slice(0, 2).map((w) => w[0] || '').join('').toUpperCase()
 }
 
-
-
 export function percent(done, total) {
   return total ? Math.round((done / total) * 100) : 0
+}
+
+export function formatDate(iso) {
+  return new Date(iso + 'T00:00').toLocaleDateString('es-MX', {
+    day: 'numeric', month: 'long', year: 'numeric',
+  })
 }
