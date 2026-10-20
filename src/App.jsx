@@ -1,18 +1,16 @@
-import { useEffect, useState } from 'react'
-import { supabase } from './lib/supabase'
+import { Routes, Route } from 'react-router-dom'
+import Global from './pages/Global'
+import Group from './pages/Group'
+import Student from './pages/Student'
+import Admin from './pages/Admin'
 
 export default function App() {
-  const [data, setData] = useState(null)
-  const [error, setError] = useState(null)
-
-  useEffect(() => {
-    supabase.rpc('get_global').then(({ data, error }) => {
-      if (error) setError(error.message)
-      else setData(data)
-    })
-  }, [])
-
-  if (error) return <p>Error: {error}</p>
-  if (!data) return <p>Cargando…</p>
-  return <p>Conectado. Grupos: {data.groups.length}, estudiantes: {data.students.length}</p>
+  return (
+    <Routes>
+      <Route path="/" element={<Global />} />
+      <Route path="/g/:token" element={<Group />} />
+      <Route path="/s/:token" element={<Student />} />
+      <Route path="/admin" element={<Admin />} />
+    </Routes>
+  )
 }
