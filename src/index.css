@@ -127,3 +127,23 @@ button:disabled { opacity: 0.4; cursor: default; }
 .cell.on { background: var(--green); border-color: var(--green); }
 .matrix th.all { padding: 2px 4px 6px; text-align: center; border-bottom: 1px solid var(--border); }
 .matrix th.all.first { border-left: 1px solid var(--border); }
+html { background: var(--bg); }
+body { min-height: 100dvh; }
+
+.chip-mobile { display: none; margin-top: 4px; }
+
+@media (max-width: 640px) {
+  main { padding: 14px 10px 40px; }
+  h1 { font-size: 23px; }
+  th, td { padding-left: 8px; padding-right: 8px; }
+  .hide-mobile { display: none; }
+  .chip-mobile { display: inline-block; }
+  .progress { min-width: 60px; }
+  td.points { font-size: 15px; }
+  .btn-text { display: none; }
+  .matrix .sticky { min-width: 130px; }
+  .matrix .student-cell .avatar { display: none; }
+  .matrix th.col { height: 150px; }
+  .stat b { font-size: 22px; }
+  .path, .module-acts { grid-template-columns: 1fr; }
+}

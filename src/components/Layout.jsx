@@ -5,7 +5,7 @@ export default function Layout() {
   return (
     <>
       <header className="top">
-        <Link to="/"><Mountain size={22} />Escuela de Tecnología</Link>
+        <Link to="/"><Mountain size={22} />Academy Leaderboard</Link>
       </header>
       <main>
         <Outlet />

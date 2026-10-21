@@ -38,11 +38,10 @@ export default function Group() {
 
   return (
     <>
-      <Link to="/" className="back"><ChevronLeft size={16} />Ranking de la escuela</Link>
+      <Link to="/" className="back"><ChevronLeft size={16} />Ranking global</Link>
       <h1>{group.name}</h1>
       <p className="sub">
         {group.updated ? `Última actividad registrada el ${formatDate(group.updated)}. ` : ''}
-        La meta es la bandera en la cima.
       </p>
 
       <div className="card padded"><Mountain students={students} total={total} /></div>
@@ -93,8 +92,8 @@ export default function Group() {
                     </td>
                     <td className="points center">{s.points}</td>
                     <td>
-                      <Link to={`/s/${s.token}`} className="btn-link">
-                        <LayoutDashboard size={15} />Dashboard
+                      <Link to={`/s/${s.token}`} className="btn-link" aria-label={`Dashboard de ${s.name}`}>
+                        <LayoutDashboard size={15} /><span className="btn-text">Dashboard</span>
                       </Link>
                     </td>
                     {flat.map((a) => (

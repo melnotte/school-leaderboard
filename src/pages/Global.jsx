@@ -25,7 +25,7 @@ export default function Global() {
 
   return (
     <>
-      <h1>Ranking de la escuela</h1>
+      <h1>Ranking global</h1>
       <p className="sub">{data.students.length} estudiantes en {data.groups.length} grupos</p>
 
       <select value={group} onChange={(e) => setGroup(e.target.value)}>
@@ -36,7 +36,13 @@ export default function Global() {
       <div className="card">
         <table>
           <thead>
-            <tr><th>Lugar</th><th>Estudiante</th><th>Grupo</th><th>Avance</th><th>Puntos</th></tr>
+            <tr>
+              <th>Lugar</th>
+              <th>Estudiante</th>
+              <th className="hide-mobile">Grupo</th>
+              <th>Avance</th>
+              <th>Puntos</th>
+            </tr>
           </thead>
           <tbody>
             {rows.map((s) => (
@@ -44,8 +50,11 @@ export default function Global() {
                 <td className="rank"><RankBadge rank={s.rank} /></td>
                 <td>
                   <Link to={`/s/${s.token}`} className="name"><Avatar name={s.name} />{s.name}</Link>
+                  <Link to={`/g/${s.group_token}`} className="chip chip-mobile">{s.group}</Link>
                 </td>
-                <td><Link to={`/g/${s.group_token}`} className="chip">{s.group}</Link></td>
+                <td className="hide-mobile">
+                  <Link to={`/g/${s.group_token}`} className="chip">{s.group}</Link>
+                </td>
                 <td><ProgressBar done={s.done} total={s.total} /></td>
                 <td className="points">{s.points}</td>
               </tr>
