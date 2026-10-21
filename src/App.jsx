@@ -6,6 +6,7 @@ import Student from './pages/Student'
 import Admin from './pages/Admin'
 import GroupsTab from './pages/admin/GroupsTab'
 import BackupTab from './pages/admin/BackupTab'
+import ModulesTab from './pages/admin/ModulesTab'
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="/admin" element={<Admin />}>
           <Route index element={<Navigate to="groups" replace />} />
           <Route path="groups" element={<GroupsTab />} />
+          <Route path="modules" element={<ModulesTab />} />
           <Route path="backup" element={<BackupTab />} />
         </Route>
       </Route>

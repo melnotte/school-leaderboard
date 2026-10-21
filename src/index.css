@@ -116,3 +116,9 @@ td.points { font-weight: 900; color: var(--amber); font-size: 17px; text-align: 
 .student-list li { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-top: 1px solid #f1f2f4; flex-wrap: wrap; }
 .student-list .grow { flex: 1; font-weight: 800; display: flex; align-items: center; gap: 8px; }
 .student-list input { margin-bottom: 0; }
+input[type="checkbox"] { width: 18px; height: 18px; margin: 0; padding: 0; accent-color: var(--green); cursor: pointer; flex-shrink: 0; }
+button:disabled { opacity: 0.4; cursor: default; }
+.act-index { font-size: 12px; font-weight: 800; color: var(--muted); min-width: 18px; text-align: right; }
+.student-list input.grow { flex: 1; }
+.move-bar { position: sticky; top: 8px; z-index: 5; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: #fffbeb; border: 1px solid #fcd34d; border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; font-weight: 800; }
+.move-bar select { margin-bottom: 0; }
