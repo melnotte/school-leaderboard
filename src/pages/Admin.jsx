@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
-import { LogOut, Users, Layers, Database } from 'lucide-react'
+import { LogOut, Users, Layers, Database, ListChecks } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import AdminLogin from '../components/admin/AdminLogin'
 
@@ -27,8 +27,9 @@ export default function Admin() {
       <p className="sub">{session.user.email}</p>
 
       <nav className="tabs">
-        <NavLink to="/admin/groups"><Users size={16} />Grupos y estudiantes</NavLink>
+        <NavLink to="/admin/progress"><ListChecks size={16} />Marcar avance</NavLink>
         <NavLink to="/admin/modules"><Layers size={16} />Temas y actividades</NavLink>
+        <NavLink to="/admin/groups"><Users size={16} />Grupos y estudiantes</NavLink>
         <NavLink to="/admin/backup"><Database size={16} />Respaldo CSV</NavLink>
       </nav>
 

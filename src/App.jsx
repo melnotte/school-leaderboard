@@ -7,6 +7,7 @@ import Admin from './pages/Admin'
 import GroupsTab from './pages/admin/GroupsTab'
 import BackupTab from './pages/admin/BackupTab'
 import ModulesTab from './pages/admin/ModulesTab'
+import ProgressTab from './pages/admin/ProgressTab'
 
 export default function App() {
   return (
@@ -16,9 +17,10 @@ export default function App() {
         <Route path="/g/:token" element={<Group />} />
         <Route path="/s/:token" element={<Student />} />
         <Route path="/admin" element={<Admin />}>
-          <Route index element={<Navigate to="groups" replace />} />
-          <Route path="groups" element={<GroupsTab />} />
+          <Route index element={<Navigate to="progress" replace />} />
+          <Route path="progress" element={<ProgressTab />} />
           <Route path="modules" element={<ModulesTab />} />
+          <Route path="groups" element={<GroupsTab />} />
           <Route path="backup" element={<BackupTab />} />
         </Route>
       </Route>

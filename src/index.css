@@ -122,3 +122,8 @@ button:disabled { opacity: 0.4; cursor: default; }
 .student-list input.grow { flex: 1; }
 .move-bar { position: sticky; top: 8px; z-index: 5; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: #fffbeb; border: 1px solid #fcd34d; border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; font-weight: 800; }
 .move-bar select { margin-bottom: 0; }
+.cell { width: 28px; height: 28px; padding: 0; border-radius: 8px; border: 2px solid #d1d5db; background: #fff; color: #fff; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+.cell:hover { border-color: var(--green); }
+.cell.on { background: var(--green); border-color: var(--green); }
+.matrix th.all { padding: 2px 4px 6px; text-align: center; border-bottom: 1px solid var(--border); }
+.matrix th.all.first { border-left: 1px solid var(--border); }
